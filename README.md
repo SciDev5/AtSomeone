@@ -1,1 +1,1 @@
-INSTALL BOT: https://discord.com/api/oauth2/authorize?client_id=862489466705936395&permissions=67241984&scope=bot
+INSTALL BOT: https://discord.com/api/oauth2/authorize?client_id=862489466705936395&permissions=67242016&scope=bot
