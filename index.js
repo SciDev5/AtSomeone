@@ -40,20 +40,20 @@ client.on("message",async message => {
         if (DEBUG_MODE) {
             console.log("Message [by: %s]: %s",author.tag,content);
             
-            
-                const role = guild.roles.resolve(content.match(/^<@&(.*?)>/)[1]);
-            if (content.match(/^<@&(.*?)>/)) {
-                if (role.managed && role.members.first().id === client.user.id)
-                    console.log("IS MENTIONING ROLE");
-            }
-
-            if (content === `<@&${INTEGRATION.role.id}> s`) {
-                client.destroy();
-                console.log("Logged Out, Bot Destroyed.");
-            } else if (content === `<@&${INTEGRATION.role.id}> m`) {
-                await message.reply("Fetching members...");
-                let members = (await guild.members.fetch({time:5000})).array();
-                await message.reply("List of members: \n"+members.map(v=>`- **${v.user.tag}** "${v.nickname}"`).join("\n"));    
+            let beginningRoleMarker = content.match(/^ *<@&(.*?)>/);
+            const role = beginningRoleMarker&&guild.roles.resolve(beginningRoleMarker[1]);
+            if (role && role.managed && role.members.first().id === client.user.id) {
+                const command = content.trim().substr(role.id.length+4).trim();
+                console.log("Received Command: "+command);
+                if (/^s(?:top)?$/.test(command)) {
+                    await message.reply("Stopping bot.");
+                    client.destroy();
+                    console.log("Logged Out, Bot Destroyed.");
+                } else if (/^m(?:embers?)?$/.test(command)) {
+                    await message.reply("Fetching members...");
+                    let members = (await guild.members.fetch({time:5000})).array();
+                    await message.reply("List of members: \n"+members.map(v=>`- **${v.user.tag}** "${v.nickname}"`).join("\n"));    
+                }
             }
         }
     } catch (e) {
