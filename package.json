@@ -1,8 +1,10 @@
 {
   "name": "atsomeone",
   "version": "1.0.0",
+  "private": true,
   "description": "Remember that joke video discord made about @someone? This is that.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
